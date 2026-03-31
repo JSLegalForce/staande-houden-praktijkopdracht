@@ -45,10 +45,10 @@
     .knop-controleer:hover { background: var(--blauw-mid); }
     .knop-controleer:active { transform: scale(0.98); }
     .knop-controleer:disabled { background: var(--grijs-mid); color: var(--tekst-mid); cursor: default; }
-    .knop-volgende { background: transparent; color: var(--blauw); border: 2px solid var(--blauw); border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 11px 24px; cursor: pointer; transition: all 0.2s; display: none; }
     .knop-vorige { background: transparent; color: var(--blauw); border: 2px solid var(--blauw); border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 11px 24px; cursor: pointer; transition: all 0.2s; display: none; }
     .knop-vorige.zichtbaar { display: block; }
     .knop-vorige:hover { background: var(--blauw); color: var(--wit); }
+    .knop-volgende { background: transparent; color: var(--blauw); border: 2px solid var(--blauw); border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 11px 24px; cursor: pointer; transition: all 0.2s; display: none; }
     .knop-volgende.zichtbaar { display: block; }
     .knop-volgende:hover { background: var(--blauw); color: var(--wit); }
     .knop-afronden { background: var(--groen); color: var(--wit); border: none; border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 12px 24px; cursor: pointer; transition: background 0.2s, transform 0.1s; display: none; }
@@ -155,10 +155,7 @@
     <div id="scherm-overzicht" class="scherm">
       <div class="overzicht-card">
         <div class="overzicht-header">
-          <div>
-            <div class="overzicht-titel">Overzicht antwoorden</div>
-            <div class="overzicht-subtitle">Jouw antwoorden vergeleken met de modelantwoorden</div>
-          </div>
+          <div><div class="overzicht-titel">Overzicht antwoorden</div><div class="overzicht-subtitle">Jouw antwoorden vergeleken met de modelantwoorden</div></div>
           <button class="knop-terug" onclick="toonEinde()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>Terug</button>
         </div>
         <div id="overzicht-inhoud"></div>
@@ -168,9 +165,7 @@
   <footer class="quiz-footer">&copy; JS Legal Force — Praktijkopdracht Staande Houden voor BOA's</footer>
   <script>
     const casusTekst = "Tijdens een surveillance met je collega in het winkelgebied, zie je een man tegen een winkelruit aanplassen. Je ziet dat er op de grond waar de man staat een plas met vloeistof ligt. Je ziet dat er druppels op de winkelruit zitten. Je ziet dat er een straal vloeistof vanaf de man ter hoogte van zijn gulp naar de winkelruit spuit. Het is droog en het regent niet. Het wildplassen is strafbaar gesteld in artikel 4.7 van de APV van de gemeente waarin je werkzaam bent. Voor het bewijs maak je direct een foto van de man. Bij het zien van jou en je collega rent de man weg.\n\nDe volgende dag zie je dezelfde man lopen. Je besluit de man staande te houden, maar deze weigert op welke wijze dan ook mee te werken en loopt gewoon weg.";
-
     const casussen = Array(8).fill({ titel: "Casus", tekst: casusTekst });
-
     const vragen = [
       { vraag: "Van welk strafbaar feit is hier sprake?", antwoord: "Overtreding van artikel 4.7 van de Algemene Plaatselijke Verordening (APV): wildplassen (het doen van natuurlijke behoefte op de openbare weg)." },
       { vraag: "Wat zijn de feiten en omstandigheden waarop je de persoon als verdachte kan aanmerken?", antwoord: "<ul><li>Er ligt een plas vloeistof op de grond.</li><li>Er zitten druppels op de winkelruit.</li><li>Er is een zichtbare straal vloeistof vanuit de man richting de winkelruit.</li><li>Het is droog weer.</li><li>Deze feiten en omstandigheden rechtvaardigen de verdenking van wildplassen.</li></ul>" },
@@ -180,7 +175,6 @@
       { vraag: "Mag je de verdachte vorderen om te blijven staan?", antwoord: "Nee. Er bestaat geen wettelijke vorderingsbevoegdheid om een verdachte te verplichten te blijven staan bij een staandehouding. Artikel 184 Sr is hier niet van toepassing." },
       { vraag: "Als de verdachte zich losrukt, is er sprake van een strafbaar feit?", antwoord: "Ja. Dit is wederspannigheid (artikel 180 Wetboek van Strafrecht), omdat er verzet wordt gepleegd tegen een rechtmatige ambtsverrichting." },
       { vraag: "Kun je de verdachte aanhouden?", antwoord: "Niet voor het wildplassen en dus de overtreding van de APV zelf (geen heterdaad meer). Indien de verdachte geen identiteitsbewijs toont en weigert zijn personalia op te geven, is hij tevens verdachte van overtreding van art. 447e Sr. In dat geval kan aanhouding (art. 53 Sv) plaatsvinden om de identiteit van de verdachte vast te stellen." }
-    ];
     ];
 
     let huidig = 0;
@@ -194,21 +188,13 @@
       document.getElementById('vraag-nummer').textContent = 'Vraag ' + (i+1) + ' van ' + vragen.length;
       document.getElementById('voortgang-tekst').textContent = 'Vraag ' + (i+1) + ' van ' + vragen.length;
       document.getElementById('voortgang-balk').style.width = ((i/vragen.length)*100) + '%';
-      // Herstel eerder ingevuld antwoord indien aanwezig
-      const eerderAntwoord = mijnAntwoorden[i] || '';
-      document.getElementById('antwoord-input').value = eerderAntwoord;
-      // Als er al een antwoord is gecontroleerd, toon het modelantwoord
+      document.getElementById('antwoord-input').value = mijnAntwoorden[i] || '';
       if (gecontroleerd[i]) {
         document.getElementById('antwoord-input').disabled = true;
         document.getElementById('knop-controleer').disabled = true;
         document.getElementById('modelantwoord-tekst').innerHTML = vragen[i].antwoord;
         document.getElementById('modelantwoord').classList.add('zichtbaar');
-        if (i < vragen.length - 1) {
-          document.getElementById('knop-volgende').classList.add('zichtbaar');
-        } else {
-          document.getElementById('knop-afronden').classList.add('zichtbaar');
-          document.getElementById('voortgang-balk').style.width = '100%';
-        }
+        if (i < vragen.length - 1) { document.getElementById('knop-volgende').classList.add('zichtbaar'); } else { document.getElementById('knop-afronden').classList.add('zichtbaar'); document.getElementById('voortgang-balk').style.width = '100%'; }
       } else {
         document.getElementById('antwoord-input').disabled = false;
         document.getElementById('knop-controleer').disabled = false;
@@ -217,15 +203,8 @@
         document.getElementById('knop-volgende').classList.remove('zichtbaar');
         document.getElementById('knop-afronden').classList.remove('zichtbaar');
       }
-      // Toon vorige knop alleen bij vraag 2 en verder
-      const knopVorige = document.getElementById('knop-vorige');
-      if (knopVorige) {
-        if (i > 0) {
-          knopVorige.classList.add('zichtbaar');
-        } else {
-          knopVorige.classList.remove('zichtbaar');
-        }
-      }
+      if (i > 0) { document.getElementById('knop-vorige').classList.add('zichtbaar'); }
+      else { document.getElementById('knop-vorige').classList.remove('zichtbaar'); }
     }
 
     function controleer() {
@@ -236,21 +215,11 @@
       document.getElementById('antwoord-input').disabled = true;
       document.getElementById('knop-controleer').disabled = true;
       document.getElementById('modelantwoord').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      if (huidig < vragen.length - 1) {
-        document.getElementById('knop-volgende').classList.add('zichtbaar');
-      } else {
-        document.getElementById('knop-afronden').classList.add('zichtbaar');
-        document.getElementById('voortgang-balk').style.width = '100%';
-      }
+      if (huidig < vragen.length - 1) { document.getElementById('knop-volgende').classList.add('zichtbaar'); }
+      else { document.getElementById('knop-afronden').classList.add('zichtbaar'); document.getElementById('voortgang-balk').style.width = '100%'; }
     }
 
-    function vorige() {
-      if (huidig > 0) {
-        huidig--;
-        laadVraag(huidig);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
+    function vorige() { if (huidig > 0) { huidig--; laadVraag(huidig); window.scrollTo({ top: 0, behavior: 'smooth' }); } }
     function volgende() { huidig++; laadVraag(huidig); window.scrollTo({ top: 0, behavior: 'smooth' }); }
     function afronden() { document.getElementById('scherm-vraag').classList.remove('actief'); document.getElementById('scherm-einde').classList.add('actief'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
@@ -271,7 +240,7 @@
     }
 
     function toonEinde() { document.getElementById('scherm-overzicht').classList.remove('actief'); document.getElementById('scherm-einde').classList.add('actief'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-    function herstart() { huidig = 0; mijnAntwoorden.fill(''); document.getElementById('scherm-einde').classList.remove('actief'); document.getElementById('scherm-overzicht').classList.remove('actief'); document.getElementById('scherm-vraag').classList.add('actief'); laadVraag(0); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function herstart() { huidig = 0; mijnAntwoorden.fill(''); gecontroleerd.fill(false); document.getElementById('scherm-einde').classList.remove('actief'); document.getElementById('scherm-overzicht').classList.remove('actief'); document.getElementById('scherm-vraag').classList.add('actief'); laadVraag(0); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
     laadVraag(0);
   </script>
