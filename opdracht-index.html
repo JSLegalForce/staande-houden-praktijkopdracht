@@ -172,14 +172,15 @@
     const casussen = Array(8).fill({ titel: "Casus", tekst: casusTekst });
 
     const vragen = [
-      { vraag: "Kun je de man als verdachte staande houden: ja of nee? Motiveer je antwoord aan de hand van de wettelijke grondslag en de feiten en omstandigheden uit de casus.", antwoord: "Ja, op grond van artikel 52 Wetboek van Strafvordering. Dit artikel geeft de opsporingsambtenaar de bevoegdheid om een verdachte staande te houden ter vaststelling van de identiteit. Heterdaad maakt geen onderdeel uit van de bestanddelen van dit artikel, waardoor ook buiten heterdaad staande kan worden gehouden. Nu dit een dag na de overtreding plaatsvindt, is dit proportioneel." },
       { vraag: "Van welk strafbaar feit is hier sprake?", antwoord: "Overtreding van artikel 4.7 van de Algemene Plaatselijke Verordening (APV): wildplassen (het doen van natuurlijke behoefte op de openbare weg)." },
       { vraag: "Wat zijn de feiten en omstandigheden waarop je de persoon als verdachte kan aanmerken?", antwoord: "<ul><li>Er ligt een plas vloeistof op de grond.</li><li>Er zitten druppels op de winkelruit.</li><li>Er is een zichtbare straal vloeistof vanuit de man richting de winkelruit.</li><li>Het is droog weer.</li><li>Deze feiten en omstandigheden rechtvaardigen de verdenking van wildplassen.</li></ul>" },
+      { vraag: "Kun je de man als verdachte staande houden: ja of nee? Motiveer je antwoord aan de hand van de wettelijke grondslag en de feiten en omstandigheden uit de casus.", antwoord: "Ja, op grond van artikel 52 Wetboek van Strafvordering. Dit artikel geeft de opsporingsambtenaar de bevoegdheid om een verdachte staande te houden ter vaststelling van de identiteit. Heterdaad maakt geen onderdeel uit van de bestanddelen van dit artikel, waardoor ook buiten heterdaad staande kan worden gehouden. Nu dit een dag na de overtreding plaatsvindt, is dit proportioneel." },
       { vraag: "Welke gegevens wil je van de verdachte weten en waar staat dat?", antwoord: "De verdachte wordt ten behoeve van het vaststellen van zijn identiteit gevraagd naar zijn naam, voornamen, geboorteplaats en geboortedatum, het adres waarop hij in de basisregistratie personen is ingeschreven en het adres van zijn feitelijke verblijfplaats (art. 27a Wetboek van Strafvordering)." },
       { vraag: "De verdachte loopt weg. Mag je de verdachte vastpakken en geweld gebruiken om hem staande te houden?", antwoord: "Ja. De verdachte hoeft niet mee te werken aan de staandehouding. De opsporingsambtenaar mag de verdachte fysiek vastpakken. Indien nodig mag geweld worden gebruikt op grond van artikel 7 lid 1 Politiewet 2012, mits proportioneel en subsidiair." },
       { vraag: "Mag je de verdachte vorderen om te blijven staan?", antwoord: "Nee. Er bestaat geen wettelijke vorderingsbevoegdheid om een verdachte te verplichten te blijven staan bij een staandehouding. Artikel 184 Sr is hier niet van toepassing." },
       { vraag: "Als de verdachte zich losrukt, is er sprake van een strafbaar feit?", antwoord: "Ja. Dit is wederspannigheid (artikel 180 Wetboek van Strafrecht), omdat er verzet wordt gepleegd tegen een rechtmatige ambtsverrichting." },
       { vraag: "Kun je de verdachte aanhouden?", antwoord: "Niet voor het wildplassen en dus de overtreding van de APV zelf (geen heterdaad meer). Indien de verdachte geen identiteitsbewijs toont en weigert zijn personalia op te geven, is hij tevens verdachte van overtreding van art. 447e Sr. In dat geval kan aanhouding (art. 53 Sv) plaatsvinden om de identiteit van de verdachte vast te stellen." }
+    ];
     ];
 
     let huidig = 0;
@@ -217,10 +218,13 @@
         document.getElementById('knop-afronden').classList.remove('zichtbaar');
       }
       // Toon vorige knop alleen bij vraag 2 en verder
-      if (i > 0) {
-        document.getElementById('knop-vorige').classList.add('zichtbaar');
-      } else {
-        document.getElementById('knop-vorige').classList.remove('zichtbaar');
+      const knopVorige = document.getElementById('knop-vorige');
+      if (knopVorige) {
+        if (i > 0) {
+          knopVorige.classList.add('zichtbaar');
+        } else {
+          knopVorige.classList.remove('zichtbaar');
+        }
       }
     }
 
