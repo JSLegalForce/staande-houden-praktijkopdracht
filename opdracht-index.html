@@ -46,6 +46,9 @@
     .knop-controleer:active { transform: scale(0.98); }
     .knop-controleer:disabled { background: var(--grijs-mid); color: var(--tekst-mid); cursor: default; }
     .knop-volgende { background: transparent; color: var(--blauw); border: 2px solid var(--blauw); border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 11px 24px; cursor: pointer; transition: all 0.2s; display: none; }
+    .knop-vorige { background: transparent; color: var(--blauw); border: 2px solid var(--blauw); border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 11px 24px; cursor: pointer; transition: all 0.2s; display: none; }
+    .knop-vorige.zichtbaar { display: block; }
+    .knop-vorige:hover { background: var(--blauw); color: var(--wit); }
     .knop-volgende.zichtbaar { display: block; }
     .knop-volgende:hover { background: var(--blauw); color: var(--wit); }
     .knop-afronden { background: var(--groen); color: var(--wit); border: none; border-radius: 8px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 12px 24px; cursor: pointer; transition: background 0.2s, transform 0.1s; display: none; }
@@ -131,6 +134,7 @@
         </div>
         <div class="knop-rij">
           <button id="knop-controleer" class="knop-controleer" onclick="controleer()">Controleer antwoord</button>
+          <button id="knop-vorige" class="knop-vorige" onclick="vorige()">&#8592; Vorige vraag</button>
           <button id="knop-volgende" class="knop-volgende" onclick="volgende()">Volgende vraag &#8594;</button>
           <button id="knop-afronden" class="knop-afronden" onclick="afronden()">Opdracht afronden &#10003;</button>
         </div>
@@ -195,6 +199,12 @@
       document.getElementById('knop-controleer').disabled = false;
       document.getElementById('knop-volgende').classList.remove('zichtbaar');
       document.getElementById('knop-afronden').classList.remove('zichtbaar');
+      // Toon vorige knop alleen bij vraag 2 en verder
+      if (i > 0) {
+        document.getElementById('knop-vorige').classList.add('zichtbaar');
+      } else {
+        document.getElementById('knop-vorige').classList.remove('zichtbaar');
+      }
     }
 
     function controleer() {
@@ -212,6 +222,13 @@
       }
     }
 
+    function vorige() {
+      if (huidig > 0) {
+        huidig--;
+        laadVraag(huidig);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
     function volgende() { huidig++; laadVraag(huidig); window.scrollTo({ top: 0, behavior: 'smooth' }); }
     function afronden() { document.getElementById('scherm-vraag').classList.remove('actief'); document.getElementById('scherm-einde').classList.add('actief'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
