@@ -184,6 +184,7 @@
 
     let huidig = 0;
     const mijnAntwoorden = new Array(vragen.length).fill('');
+    const gecontroleerd = new Array(vragen.length).fill(false);
 
     function laadVraag(i) {
       document.getElementById('casus-titel').textContent = casussen[i].titel;
@@ -192,13 +193,29 @@
       document.getElementById('vraag-nummer').textContent = 'Vraag ' + (i+1) + ' van ' + vragen.length;
       document.getElementById('voortgang-tekst').textContent = 'Vraag ' + (i+1) + ' van ' + vragen.length;
       document.getElementById('voortgang-balk').style.width = ((i/vragen.length)*100) + '%';
-      document.getElementById('antwoord-input').value = '';
-      document.getElementById('antwoord-input').disabled = false;
-      document.getElementById('modelantwoord').classList.remove('zichtbaar');
-      document.getElementById('modelantwoord-tekst').innerHTML = '';
-      document.getElementById('knop-controleer').disabled = false;
-      document.getElementById('knop-volgende').classList.remove('zichtbaar');
-      document.getElementById('knop-afronden').classList.remove('zichtbaar');
+      // Herstel eerder ingevuld antwoord indien aanwezig
+      const eerderAntwoord = mijnAntwoorden[i] || '';
+      document.getElementById('antwoord-input').value = eerderAntwoord;
+      // Als er al een antwoord is gecontroleerd, toon het modelantwoord
+      if (gecontroleerd[i]) {
+        document.getElementById('antwoord-input').disabled = true;
+        document.getElementById('knop-controleer').disabled = true;
+        document.getElementById('modelantwoord-tekst').innerHTML = vragen[i].antwoord;
+        document.getElementById('modelantwoord').classList.add('zichtbaar');
+        if (i < vragen.length - 1) {
+          document.getElementById('knop-volgende').classList.add('zichtbaar');
+        } else {
+          document.getElementById('knop-afronden').classList.add('zichtbaar');
+          document.getElementById('voortgang-balk').style.width = '100%';
+        }
+      } else {
+        document.getElementById('antwoord-input').disabled = false;
+        document.getElementById('knop-controleer').disabled = false;
+        document.getElementById('modelantwoord').classList.remove('zichtbaar');
+        document.getElementById('modelantwoord-tekst').innerHTML = '';
+        document.getElementById('knop-volgende').classList.remove('zichtbaar');
+        document.getElementById('knop-afronden').classList.remove('zichtbaar');
+      }
       // Toon vorige knop alleen bij vraag 2 en verder
       if (i > 0) {
         document.getElementById('knop-vorige').classList.add('zichtbaar');
@@ -209,6 +226,7 @@
 
     function controleer() {
       mijnAntwoorden[huidig] = document.getElementById('antwoord-input').value.trim();
+      gecontroleerd[huidig] = true;
       document.getElementById('modelantwoord-tekst').innerHTML = vragen[huidig].antwoord;
       document.getElementById('modelantwoord').classList.add('zichtbaar');
       document.getElementById('antwoord-input').disabled = true;
